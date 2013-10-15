@@ -24,7 +24,7 @@ def autor_livros_todos(params):
         abort(500)
 
 
-def autores_todos_get(params):
+def autores_todos_post(params):
     nome = params.get('nome')
     if nome:
         autor = Autores()
