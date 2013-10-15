@@ -3,6 +3,7 @@ from flask import abort
 import pymongo
 from models.autores import Autores
 from models.livros import Livros
+from models.token import Token
 from models.usuarios import Usuario
 from utils import JSONEncoder, save_file
 from bson.objectid import ObjectId
@@ -41,17 +42,15 @@ def livros_todos_post(params):
 
 
 def livros_lidos_get(params):
-    usuario = Usuario()
-    Usuario.make_usuario_from_dict(usuario, Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))}))
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livros = Livros.make_dict_from_livro(None, usuario.get_livros_lidos(), many=True)
     return JSONEncoder().encode(livros)
 
 
 def livros_lidos_post(params):
-    usuario = Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))})
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livro = Livros.collection().find_one({'_id': ObjectId(params.get('livro'))})
     if usuario and livro:
-        usuario = Usuario.make_usuario_from_dict(Usuario(), usuario)
         livro = Livros.make_livro_from_dict(Livros(), livro)
         usuario.set_livro_lido(livro)
         return "ok"
@@ -60,17 +59,15 @@ def livros_lidos_post(params):
 
 
 def livros_comprados_get(params):
-    usuario = Usuario()
-    Usuario.make_usuario_from_dict(usuario, Usuario.collection().find_one())
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livros = Livros.make_dict_from_livro(None, usuario.get_livros_comprados(), many=True)
     return JSONEncoder().encode(livros)
 
 
 def livros_comprados_post(params):
-    usuario = Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))})
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livro = Livros.collection().find_one({'_id': ObjectId(params.get('livro'))})
     if usuario and livro:
-        usuario = Usuario.make_usuario_from_dict(Usuario(), usuario)
         livro = Livros.make_livro_from_dict(Livros(), livro)
         usuario.set_livro_comprado(livro)
         return "ok"
@@ -79,17 +76,15 @@ def livros_comprados_post(params):
 
 
 def livros_desejo_get(params):
-    usuario = Usuario()
-    Usuario.make_usuario_from_dict(usuario, Usuario.collection().find_one())
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livros = Livros.make_dict_from_livro(None, usuario.get_livros_desejo(), many=True)
     return JSONEncoder().encode(livros)
 
 
 def livros_desejo_post(params):
-    usuario = Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))})
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livro = Livros.collection().find_one({'_id': ObjectId(params.get('livro'))})
     if usuario and livro:
-        usuario = Usuario.make_usuario_from_dict(Usuario(), usuario)
         livro = Livros.make_livro_from_dict(Livros(), livro)
         usuario.set_livro_deseja(livro)
         return "ok"
@@ -98,18 +93,16 @@ def livros_desejo_post(params):
 
 
 def livros_avaliacoes_get(params):
-    usuario = Usuario()
-    Usuario.make_usuario_from_dict(usuario, Usuario.collection().find_one())
+    usuario = Token.get_usuario_from_token(params.get('token'))
     avaliacoes = usuario.get_livros_avaliados()
     return JSONEncoder().encode(avaliacoes)
 
 
 def livros_avaliacoes_post(params):
-    usuario = Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))})
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livro = Livros.collection().find_one({'_id': ObjectId(params.get('livro'))})
     avaliacao = int(params.get('avaliacao'))
     if usuario and livro and (0 <= avaliacao <= 5):
-        usuario = Usuario.make_usuario_from_dict(Usuario(), usuario)
         livro = Livros.make_livro_from_dict(Livros(), livro)
         usuario.set_avaliacao(avaliacao, livro)
         return "ok"
@@ -118,18 +111,16 @@ def livros_avaliacoes_post(params):
 
 
 def livros_resenhas_get(params):
-    usuario = Usuario()
-    Usuario.make_usuario_from_dict(usuario, Usuario.collection().find_one())
+    usuario = Token.get_usuario_from_token(params.get('token'))
     resenhas = usuario.get_livros_resenhados()
     return JSONEncoder().encode(resenhas)
 
 
 def livros_resenhas_post(params):
-    usuario = Usuario.collection().find_one({'_id': ObjectId(params.get('usuario'))})
+    usuario = Token.get_usuario_from_token(params.get('token'))
     livro = Livros.collection().find_one({'_id': ObjectId(params.get('livro'))})
     resenha = params.get('avaliacao')
     if usuario and livro and resenha:
-        usuario = Usuario.make_usuario_from_dict(Usuario(), usuario)
         livro = Livros.make_livro_from_dict(Livros(), livro)
         usuario.set_resenha(resenha, livro)
         return "ok"

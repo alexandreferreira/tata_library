@@ -1,12 +1,13 @@
 from flask import Flask, request
 import sys
-from utils import get_params
+from utils import get_params, login_required
 
 sys.path.insert(0, "/Users/alexandreferreira/PycharmProjects/tata_library/")
 
 from models.autores import Autores
 from models.livros import Livros
-from views import livros_view
+from views import livros_view, usuario_view, autores_view
+
 app = Flask(__name__)
 
 
@@ -40,6 +41,7 @@ def hello_world():
 
 
 @app.route('/livros/todos/', methods=['GET', 'POST'])
+@login_required
 def livros_todos():
     params = get_params(request)
     if request.method == 'GET':
@@ -49,6 +51,7 @@ def livros_todos():
 
 
 @app.route('/livros/lidos/', methods=['GET', 'POST'])
+@login_required
 def livros_lidos():
     params = get_params(request)
     if request.method == 'GET':
@@ -58,6 +61,7 @@ def livros_lidos():
 
 
 @app.route('/livros/comprados/', methods=['GET', 'POST'])
+@login_required
 def livros_comprados():
     params = get_params(request)
     if request.method == 'GET':
@@ -67,6 +71,7 @@ def livros_comprados():
 
 
 @app.route('/livros/desejo/', methods=['GET', 'POST'])
+@login_required
 def livros_desejo():
     params = get_params(request)
     if request.method == 'GET':
@@ -76,6 +81,7 @@ def livros_desejo():
 
 
 @app.route('/livros/avaliacoes/', methods=['GET', 'POST'])
+@login_required
 def livros_avaliacoes():
     params = get_params(request)
     if request.method == 'GET':
@@ -84,12 +90,40 @@ def livros_avaliacoes():
         return livros_view.livros_avaliacoes_post(params)
 
 @app.route('/livros/resenhas/', methods=['GET', 'POST'])
+@login_required
 def livros_resenhas():
     params = get_params(request)
     if request.method == 'GET':
         return livros_view.livros_resenhas_get(params)
     else:
         return livros_view.livros_resenhas_post(params)
+
+
+@app.route('/autor/todos/', methods=['GET', 'POST'])
+@login_required
+def autor_todos():
+    params = get_params(request)
+    if request.method == 'GET':
+        return autores_view.autores_todos_get(params)
+    else:
+        return autores_view.autores_todos_post(params)
+
+@app.route('/autor/todos/', methods=['GET'])
+@login_required
+def autor_livros_todos():
+    params = get_params(request)
+    return autores_view.autor_livros_todos(params)
+
+
+@app.route('/usuario/cadastrar/', methods=['POST'])
+def cadastrar_usuario():
+    params = get_params(request)
+    return usuario_view.cadastrar_usuario(params)
+
+@app.route('/usuario/logar/', methods=['POST'])
+def logar():
+    params = get_params(request)
+    return usuario_view.logar(params)
 
 if __name__ == '__main__':
     app.debug = True
