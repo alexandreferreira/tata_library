@@ -1,8 +1,5 @@
 from flask import Flask, request
-import sys
 from utils import get_params, login_required
-
-sys.path.insert(0, "/Users/alexandreferreira/PycharmProjects/tata_library/")
 
 from models.autores import Autores
 from models.livros import Livros
