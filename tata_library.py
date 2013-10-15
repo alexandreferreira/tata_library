@@ -40,7 +40,7 @@ def hello_world():
 def livros_todos():
     params = get_params(request)
     if request.method == 'GET':
-        return "teste"
+        return livros_view.livros_todos_get(params)
     else:
         return livros_view.livros_todos_post(params)
 
