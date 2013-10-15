@@ -21,29 +21,30 @@ def visualizar_perfil(params):
 
 
 def cadastrar_usuario(params):
-    nome = params.get('nome')
-    senha = params.get('senha')
-    email = params.get('email')
-    username = params.get('username')
-    if nome and email and username:
-        if not Usuario.collection().find_one({'username': username}):
-            if not Usuario.collection().find_one({'email': email}):
-                u = Usuario()
-                u.nome = nome
-                u.email = email
-                u.username = username
-                hash = SHA256.new()
-                hash.update(senha)
-                u.senha = hash.hexdigest()
-                usuario_dict = Usuario.make_dict_from_usuario(u)
-                Usuario.collection().insert(usuario_dict)
-                return "sucesso!"
-            else:
-                return "email ja existe"
-        else:
-            return "usuario ja cadastrado"
-    else:
-        abort(500)
+    print params
+    #nome = params.get('nome')
+    #senha = params.get('senha')
+    #email = params.get('email')
+    #username = params.get('username')
+    #if nome and email and username and senha:
+    #    if not Usuario.collection().find_one({'username': username}):
+    #        if not Usuario.collection().find_one({'email': email}):
+    #            u = Usuario()
+    #            u.nome = nome
+    #            u.email = email
+    #            u.username = username
+    #            hash = SHA256.new()
+    #            hash.update(senha)
+    #            u.senha = hash.hexdigest()
+    #            usuario_dict = Usuario.make_dict_from_usuario(u)
+    #            Usuario.collection().insert(usuario_dict)
+    #            return "sucesso!"
+    #        else:
+    #            return "email ja existe"
+    #    else:
+    #        return "usuario ja cadastrado"
+    #else:
+    #    abort(500)
 
 
 def logar(params):
