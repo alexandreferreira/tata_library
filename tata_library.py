@@ -40,7 +40,7 @@ def hello_world():
 def livros_todos():
     params = get_params(request)
     if request.method == 'GET':
-        return livros_view.livros_todos_get(params)
+        return "teste"
     else:
         return livros_view.livros_todos_post(params)
 
@@ -113,7 +113,8 @@ def autor_livros_todos():
 @app.route('/usuario/cadastrar/', methods=['POST'])
 def cadastrar_usuario():
     params = get_params(request)
-    return usuario_view.cadastrar_usuario(params)
+    return params
+    #return usuario_view.cadastrar_usuario(params)
 
 @app.route('/usuario/logar/', methods=['POST'])
 def logar():
