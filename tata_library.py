@@ -1,5 +1,6 @@
 from flask import Flask, request
 app = Flask(__name__)
+app.config['DEBUG'] = True
 from utils import get_params, login_required
 
 from models.autores import Autores
