@@ -38,7 +38,6 @@ def hello_world():
 
 
 @app.route('/livros/todos/', methods=['GET', 'POST'])
-@login_required
 def livros_todos():
     params = get_params(request)
     if request.method == 'GET':
