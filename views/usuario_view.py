@@ -21,7 +21,7 @@ def visualizar_perfil(params):
 
 
 def cadastrar_usuario(params):
-    print params
+    return params
     #nome = params.get('nome')
     #senha = params.get('senha')
     #email = params.get('email')
