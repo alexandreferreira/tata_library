@@ -1,14 +1,17 @@
 import os
-from flask import send_from_directory, abort
+from flask import send_from_directory, abort, request
 import pymongo
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
+from models.token import Token
+from functools import wraps
 
 __author__ = 'alexandreferreira'
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 MEDIA_ROOT = os.path.join(ROOT_PATH, "media")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+SECRET_KEY = "12345678901234567890"
 
 
 def connect_mongo():
@@ -59,3 +62,14 @@ def save_file(file_image):
 def get_image(file_name):
     return send_from_directory(MEDIA_ROOT,
                                     file_name)
+
+
+def login_required(func):
+    @wraps(func)
+    def validate():
+        params = get_params(request)
+        if Token.validate_token(params.get('token')):
+            return func()
+        else:
+            abort(403)
+    return validate
