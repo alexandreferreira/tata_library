@@ -16,7 +16,7 @@ SECRET_KEY = "12345678901234567890"
 
 def connect_mongo():
     connection = pymongo.MongoClient(os.environ.get('MONGOHQ_URL', 'localhost'))
-    db = connection.tata
+    db = connection.get_default_database()
     return db
 
 

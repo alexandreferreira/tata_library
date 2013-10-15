@@ -114,8 +114,7 @@ def autor_livros_todos():
 @app.route('/usuario/cadastrar/', methods=['POST'])
 def cadastrar_usuario():
     params = get_params(request)
-    return params
-    #return usuario_view.cadastrar_usuario(params)
+    return usuario_view.cadastrar_usuario(params)
 
 @app.route('/usuario/logar/', methods=['POST'])
 def logar():
