@@ -1,11 +1,10 @@
 from flask import Flask, request
+app = Flask(__name__)
 from utils import get_params, login_required
 
 from models.autores import Autores
 from models.livros import Livros
 from views import livros_view, usuario_view, autores_view
-
-app = Flask(__name__)
 
 
 @app.route('/tste')
